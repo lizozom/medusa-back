@@ -26,7 +26,8 @@ const ADMIN_CORS =
   process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
 
 // CORS to avoid issues when consuming Medusa from a client
-const STORE_CORS = process.env.STORE_CORS || "http://localhost:3000";
+const STORE_CORS = process.env.STORE_CORS || "http://localhost:3000,http://localhost:8000";
+
 
 const DATABASE_TYPE = process.env.DATABASE_TYPE || "postgres";
 const DATABASE_URL = process.env.DATABASE_URL || "postgres://localhost/vercel-commerce";
@@ -35,14 +36,22 @@ const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 const plugins = [
   `medusa-fulfillment-manual`,
   `medusa-payment-manual`,
-  // To enable the admin plugin, uncomment the following lines and run `yarn add @medusajs/admin`
-  // {
-  //   resolve: "@medusajs/admin",
-  //   /** @type {import('@medusajs/admin').PluginOptions} */
-  //   options: {
-  //     autoRebuild: true,
-  //   },
-  // },
+  {
+    resolve: "@medusajs/admin",
+    /** @type {import('@medusajs/admin').PluginOptions} */
+    options: {
+      autoRebuild: true,
+      open: true,
+    },
+  },
+  {
+    resolve: `@medusajs/file-local`,
+    options: {
+      upload_dir: 'uploads/images', 
+      backend_url: 'http://localhost:9000' 
+      // optional
+    },
+  },
 ];
 
 const modules = {
@@ -79,6 +88,9 @@ if (DATABASE_URL && DATABASE_TYPE === "postgres") {
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
+  featureFlags: {
+    product_categories: true,
+  },
   projectConfig,
   plugins,
 	modules,
