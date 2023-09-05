@@ -14,17 +14,17 @@
   ],
   "scripts": {
     "clean": "cross-env ./node_modules/.bin/rimraf dist",
-    "build": "cross-env npm run clean && tsc -p tsconfig.json",
     "watch": "cross-env tsc --watch",
     "test": "cross-env jest",
     "seed": "cross-env medusa seed -f ./data/seed.json",
-    "start": "cross-env npm run build && medusa start",
     "start:custom": "cross-env npm run build && node --preserve-symlinks index.js",
     "dev": "cross-env npm run build && medusa develop",
     "build:admin": "cross-env medusa-admin build",
     "serve": "medusa start",
     "heroku-postbuild": "medusa migrations run",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "start": "medusa develop",
+    "build": "babel src -d dist --extensions \".ts,.js\""
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.4",
@@ -43,6 +43,7 @@
     "medusa-fulfillment-manual": "^1.1.37",
     "medusa-interfaces": "^1.3.7",
     "medusa-payment-manual": "^1.0.23",
+    "medusa-payment-stripe": "nextjs-commerce",
     "typeorm": "npm:@medusajs/typeorm@next"
   },
   "devDependencies": {
