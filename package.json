@@ -21,10 +21,10 @@
     "dev": "cross-env npm run build && medusa develop",
     "build:admin": "cross-env medusa-admin build",
     "serve": "medusa start",
-    "heroku-postbuild": "medusa migrations run",
     "prepare": "npm run build",
     "start": "medusa develop",
-    "build": "babel src -d dist --extensions \".ts,.js\""
+    "build": "babel src -d dist --extensions \".ts,.js\"",
+    "heroku-postbuild": "medusa migrations run"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.4",
